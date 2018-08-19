@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -92,7 +87,7 @@ namespace IP_Sender
                     return;
                 }
             }
-            //If we use direct ip, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           if (useDirectIPToolStripMenuItem.Checked)
+            //If we use direct IP, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           if (useDirectIPToolStripMenuItem.Checked)
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             //Check proxy
             if (string.IsNullOrWhiteSpace(TXTProxyIP.Text) && string.IsNullOrWhiteSpace(TXTProxyPort.Text))
