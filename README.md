@@ -8,7 +8,7 @@ Think you have dynamic IP and you are running a VNC Sever on your computer(Or SS
 - .Net Framework 4.5
 ### Install
 
-1. Download the project and build it.
+1. Download the project and build it. (Or download it from [here](https://github.com/HirbodBehnam/IP-Sender/releases))
 2. Go [here](https://t.me/BotFather) and create new bot.
 3. Run the application and enter the Token you got from BotFather
 4. In settings menu, open password hasher and create a password. Copy the hashed string.
