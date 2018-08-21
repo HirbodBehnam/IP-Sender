@@ -22,7 +22,7 @@ namespace IP_Sender
             TXTPCName.Text = settings.PCName;
             TXTHashedPassword.Text = settings.Password;
             TXTProxyIP.Text = settings.ProxyIP;
-            TXTProxyPort.Text = settings.ProxyPort.ToString();
+            TXTProxyPort.Text = settings.ProxyPort;
             TXTProxyUsername.Text = settings.ProxyUser;
             TXTProxyPassword.Text = settings.ProxyPass;
             useDirectIPToolStripMenuItem.Checked = settings.DirectIP;
@@ -78,7 +78,7 @@ namespace IP_Sender
             if (!string.IsNullOrWhiteSpace(TXTProxyPort.Text)) {
                 try
                 {
-                    Properties.Settings.Default.ProxyPort = Convert.ToInt32(TXTProxyPort.Text);
+                    Properties.Settings.Default.ProxyPort = TXTProxyPort.Text;
                     Properties.Settings.Default.Save();
                 }
                 catch (Exception)
@@ -87,7 +87,8 @@ namespace IP_Sender
                     return;
                 }
             }
-            //If we use direct IP, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           if (useDirectIPToolStripMenuItem.Checked)
+            //If we use direct IP, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           
+            if (useDirectIPToolStripMenuItem.Checked)
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             //Check proxy
             if (string.IsNullOrWhiteSpace(TXTProxyIP.Text) && string.IsNullOrWhiteSpace(TXTProxyPort.Text))
