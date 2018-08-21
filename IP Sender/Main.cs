@@ -157,6 +157,7 @@ namespace IP_Sender
             MenuStartBot.Enabled = true;
             MenuStopBot.Enabled = false;
             Bot.StopReceiving();
+            TXTLog.AppendText($"[{DateTime.Now}]: Stopped bot.\n");
         }
 
         private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
