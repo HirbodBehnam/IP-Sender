@@ -1,7 +1,7 @@
 # IP Sender Telegram Bot
 Send your IP public address via a telegram bot.
 ## What is it used for?
-Think you have dynamic IP and you are running a VNC Sever on your computer(Or SSH Server). You need your IP every time you reboot the router. This application will send your IP every time you request it.
+Think you have dynamic IP and you are running a VNC Sever on your computer(Or SSH server or remote desktop). You need your IP every time you reboot the router. This application will send your IP every time you request it.
 ### Prerequirements
 - [This library](https://github.com/HirbodBehnam/Telegram.Bot)
 - Visual Studio 2017
