@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,11 +14,23 @@ namespace IP_Sender
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            if (args.Length == 1 && args[0] == "-s")
+            {
+                ServiceBase.Run(new IPService());
+            }
+            else
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                if (Helper.ServiceExists("") && new ServiceController("IP Sender Bot").Status != ServiceControllerStatus.Stopped)
+                {
+                    MessageBox.Show("Please stop the service before opening the application!","Service Running",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    Application.Exit();
+                }
+                Application.Run(new Main());
+            }
         }
     }
 }

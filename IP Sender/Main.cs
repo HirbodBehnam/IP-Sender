@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
@@ -14,6 +16,8 @@ namespace IP_Sender
         private TelegramBotClient Bot;
         private string Password;
         private string PCName;
+        private bool LogSends;
+        private bool LogFails;
         public Main()
         {
             InitializeComponent();
@@ -57,16 +61,22 @@ namespace IP_Sender
         }
         private void logLoginFailuresToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.LogLoginFailures = logLoginFailuresToolStripMenuItem1.Checked;
+            Properties.Settings.Default.LogLoginFailures = LogFails = logLoginFailuresToolStripMenuItem1.Checked;
             Properties.Settings.Default.Save();
         }
         private void logSentIPsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.LogSends = logSentIPsToolStripMenuItem.Checked;
+            Properties.Settings.Default.LogSends = LogSends = logSentIPsToolStripMenuItem.Checked;
             Properties.Settings.Default.Save();
         }
         private void BTNStartBot_Click(object sender, EventArgs e)
         {
+            //Validate inputs
+            if (TXTToken.Empty() || TXTPCName.Empty() || TXTHashedPassword.Empty())
+            {
+                MessageBox.Show("Please fill all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) ;
+                return;
+            }
             //At first save the settings
             Properties.Settings.Default.Token = TXTToken.Text;
             Properties.Settings.Default.PCName = PCName = TXTPCName.Text;
@@ -75,7 +85,7 @@ namespace IP_Sender
             Properties.Settings.Default.ProxyUser = TXTProxyUsername.Text;
             Properties.Settings.Default.ProxyPass = TXTProxyPassword.Text;
             Properties.Settings.Default.Save();
-            if (!string.IsNullOrWhiteSpace(TXTProxyPort.Text)) {
+            if (!TXTProxyPort.Empty()) {
                 try
                 {
                     Properties.Settings.Default.ProxyPort = TXTProxyPort.Text;
@@ -87,22 +97,20 @@ namespace IP_Sender
                     return;
                 }
             }
+            SaveToJson();
             //If we use direct IP, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           
             if (useDirectIPToolStripMenuItem.Checked)
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             //Check proxy
-            if (string.IsNullOrWhiteSpace(TXTProxyIP.Text) && string.IsNullOrWhiteSpace(TXTProxyPort.Text))
+            if (TXTProxyIP.Empty() && TXTProxyPort.Empty())
                 Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked);
+            else if(TXTProxyUsername.Empty() && TXTProxyPassword.Empty())
+                    Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, new WebProxy(TXTProxyIP.Text, Convert.ToInt32(TXTProxyPort.Text)));
             else
             {
-                if(string.IsNullOrWhiteSpace(TXTProxyUsername.Text) && string.IsNullOrWhiteSpace(TXTProxyPassword.Text))
-                    Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, new WebProxy(TXTProxyIP.Text, Convert.ToInt32(TXTProxyPort.Text)));
-                else
-                {
-                    ICredentials credentials = new NetworkCredential(TXTProxyUsername.Text, TXTProxyPassword.Text);
-                    WebProxy proxy = new WebProxy(TXTProxyIP.Text + ":"+ Convert.ToInt32(TXTProxyPort.Text), true, null, credentials);
-                    Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, proxy);
-                }
+                ICredentials credentials = new NetworkCredential(TXTProxyUsername.Text, TXTProxyPassword.Text);
+                WebProxy proxy = new WebProxy(TXTProxyIP.Text + ":"+ TXTProxyPort.Text, true, null, credentials);
+                Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, proxy);
             }
             BTNStartBot.Enabled = false;
             BTNStopBot.Enabled = true;
@@ -134,7 +142,7 @@ namespace IP_Sender
                     {
                         ToSend = sr.ReadToEnd();
                     }
-                    if (Properties.Settings.Default.LogSends)
+                    if (LogSends)
                     {
                         TXTLog.Invoke(new Action(() => TXTLog.AppendText($"[{DateTime.Now}]: Send IP for @{message.From.Username}, UserID:{message.From.Id}, Name: {message.From.FirstName} {message.From.LastName}\n")));
                     }
@@ -145,7 +153,7 @@ namespace IP_Sender
                     TXTLog.AppendText($"[{DateTime.Now}]: Error Getting IP: {ToSend}\n",Color.Red);
                 }
                 await Bot.SendTextMessageAsync(message.Chat.Id, ToSend);
-            }else if (Properties.Settings.Default.LogLoginFailures)
+            }else if (LogFails)
             {
                 TXTLog.Invoke(new Action(() => TXTLog.AppendText($"[{DateTime.Now}]: Failed login attempt from @{message.From.Username}, UserID:{message.From.Id}, Name: {message.From.FirstName} {message.From.LastName}, Entered password: {msg[1]}  for {msg[0]} computer.\n", Color.Red)));
             }
@@ -168,7 +176,72 @@ namespace IP_Sender
 
         private void sourceToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/HirbodBehnam/IP-Sender");
+            Process.Start("https://github.com/HirbodBehnam/IP-Sender");
+        }
+
+        private void createServiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Helper.ServiceExists("IP Sender Bot"))
+            {
+                MessageBox.Show("Service exists","Error",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            else if (!Helper.IsAdministrator())
+            {
+                MessageBox.Show("Please run application as admin and try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Process.Start("sc", $"create \"IP Sender Bot\" binPath= \"{Application.ExecutablePath} -s\" start= auto")
+                    .WaitForExit();
+                Process.Start("sc", "description \"IP Sender Bot\" \"The service that sends your public IP via bot when requested.\"");
+            }
+        }
+
+        private void disableServiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Helper.IsAdministrator())
+            {
+                MessageBox.Show("Please run application as admin and try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Process.Start("sc", $"stop \"IP Sender Bot\"")
+                        .WaitForExit();
+                Process.Start("sc", $"delete \"IP Sender Bot\"");
+            }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                Bot.StopReceiving();
+            }
+            catch (Exception) { }
+        }
+        private static void SaveToJson()
+        {
+            Properties.Settings.Default.Reload();
+            Config config = new Config
+            {
+                DirectIP = Properties.Settings.Default.DirectIP,
+                Token = Properties.Settings.Default.Token,
+                PCName = Properties.Settings.Default.PCName,
+                Password = Properties.Settings.Default.Password,
+                LogFails = Properties.Settings.Default.LogLoginFailures,
+                LogSends = Properties.Settings.Default.LogSends
+            };
+            if (!Properties.Settings.Default.ProxyIP.Empty() && !Properties.Settings.Default.ProxyPort.Empty())
+            {
+                config.proxy = new Config.Proxy()
+                {
+                    IP = Properties.Settings.Default.ProxyIP,
+                    Port = Convert.ToInt32(Properties.Settings.Default.ProxyPort),
+                    Password = Properties.Settings.Default.ProxyPass,
+                    User = Properties.Settings.Default.ProxyUser
+                };
+            }
+            System.IO.File.WriteAllText("config.json" ,JsonConvert.SerializeObject(config));
         }
     }
 }

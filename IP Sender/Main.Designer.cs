@@ -40,6 +40,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.howToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.TXTToken = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -76,7 +79,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.serviceToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -144,16 +148,39 @@
             // sourceToolStripMenuItem1
             // 
             this.sourceToolStripMenuItem1.Name = "sourceToolStripMenuItem1";
-            this.sourceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.sourceToolStripMenuItem1.Size = new System.Drawing.Size(110, 22);
             this.sourceToolStripMenuItem1.Text = "Source";
             this.sourceToolStripMenuItem1.Click += new System.EventHandler(this.sourceToolStripMenuItem1_Click);
             // 
             // howToUseToolStripMenuItem
             // 
             this.howToUseToolStripMenuItem.Name = "howToUseToolStripMenuItem";
-            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.howToUseToolStripMenuItem.Text = "Help";
             this.howToUseToolStripMenuItem.Click += new System.EventHandler(this.howToUseToolStripMenuItem_Click);
+            // 
+            // serviceToolStripMenuItem
+            // 
+            this.serviceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createServiceToolStripMenuItem,
+            this.disableServiceToolStripMenuItem});
+            this.serviceToolStripMenuItem.Name = "serviceToolStripMenuItem";
+            this.serviceToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.serviceToolStripMenuItem.Text = "Service";
+            // 
+            // createServiceToolStripMenuItem
+            // 
+            this.createServiceToolStripMenuItem.Name = "createServiceToolStripMenuItem";
+            this.createServiceToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.createServiceToolStripMenuItem.Text = "Create Service";
+            this.createServiceToolStripMenuItem.Click += new System.EventHandler(this.createServiceToolStripMenuItem_Click);
+            // 
+            // disableServiceToolStripMenuItem
+            // 
+            this.disableServiceToolStripMenuItem.Name = "disableServiceToolStripMenuItem";
+            this.disableServiceToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.disableServiceToolStripMenuItem.Text = "Delete Service";
+            this.disableServiceToolStripMenuItem.Click += new System.EventHandler(this.disableServiceToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -408,6 +435,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Telegram Bot IP Sender";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -458,6 +486,9 @@
         private System.Windows.Forms.ToolStripMenuItem MenuShow;
         private System.Windows.Forms.ToolStripMenuItem logSentIPsToolStripMenuItem;
         private System.Windows.Forms.RichTextBox TXTLog;
+        private System.Windows.Forms.ToolStripMenuItem serviceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createServiceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableServiceToolStripMenuItem;
     }
 }
 
