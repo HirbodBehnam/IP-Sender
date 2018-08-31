@@ -17,3 +17,5 @@ Think you have dynamic IP and you are running a VNC Sever on your computer(Or SS
 7. Click Start Bot
 
 Now the bot will listen for inputs. Send `[PC Name] [Password]` to bot to receive your IP.
+### Service
+To create the service simply click on "Create Service" from service drop down menu in application.
