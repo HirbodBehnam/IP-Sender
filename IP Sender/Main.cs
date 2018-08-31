@@ -150,7 +150,7 @@ namespace IP_Sender
                 catch (Exception ex)
                 {
                     ToSend = ex.ToString();
-                    TXTLog.AppendText($"[{DateTime.Now}]: Error Getting IP: {ToSend}\n",Color.Red);
+                    TXTLog.Invoke(new Action(() => TXTLog.AppendText($"[{DateTime.Now}]: Error Getting IP: {ToSend}\n",Color.Red)));
                 }
                 await Bot.SendTextMessageAsync(message.Chat.Id, ToSend);
             }else if (LogFails)
