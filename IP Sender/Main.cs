@@ -153,7 +153,7 @@ namespace IP_Sender
                     TXTLog.Invoke(new Action(() => TXTLog.AppendText($"[{DateTime.Now}]: Error Getting IP: {ToSend}\n",Color.Red)));
                 }
                 await Bot.SendTextMessageAsync(message.Chat.Id, ToSend);
-            }else if (LogFails)
+            }else if (msg[0] == PCName && LogFails)
             {
                 TXTLog.Invoke(new Action(() => TXTLog.AppendText($"[{DateTime.Now}]: Failed login attempt from @{message.From.Username}, UserID:{message.From.Id}, Name: {message.From.FirstName} {message.From.LastName}, Entered password: {msg[1]}  for {msg[0]} computer.\n", Color.Red)));
             }
