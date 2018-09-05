@@ -19,3 +19,6 @@ Think you have dynamic IP and you are running a VNC Sever on your computer(Or SS
 Now the bot will listen for inputs. Send `[PC Name] [Password]` to bot to receive your IP.
 ### Service
 To create the service simply click on "Create Service" from service drop down menu in application.
+
+#### .Net Core
+[This](https://github.com/HirbodBehnam/IP-Sender-Net-Core) is same project written in .Net Core
