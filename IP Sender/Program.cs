@@ -25,11 +25,9 @@ namespace IP_Sender
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 if (Helper.ServiceExists("IP Sender Bot") && new ServiceController("IP Sender Bot").Status != ServiceControllerStatus.Stopped)
-                {
                     MessageBox.Show("Please stop the service before opening the application!","Service Running",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                    Application.Exit();
-                }
-                Application.Run(new Main());
+                else
+                    Application.Run(new Main());
             }
         }
     }
