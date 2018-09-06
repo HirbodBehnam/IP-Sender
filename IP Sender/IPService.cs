@@ -63,7 +63,7 @@ namespace IP_Sender
             var me = Bot.GetMeAsync().Result;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.StartReceiving(new UpdateType[0]);
-            WriteLog($"Starting @{me.Id} bot.", "INFO");
+            WriteLog($"Starting @{me.Username} bot.", "INFO");
         }
 
         protected override void OnStop()

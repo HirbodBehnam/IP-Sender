@@ -119,7 +119,7 @@ namespace IP_Sender
             var me = Bot.GetMeAsync().Result;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.StartReceiving(new UpdateType[0]);
-            TXTLog.AppendText($"[{DateTime.Now}]: Starting @{me.Id} bot.\n");
+            TXTLog.AppendText($"[{DateTime.Now}]: Starting @{me.Username} bot.\n");
         }
         private async void BotOnMessageReceived(object sender, MessageEventArgs e)
         {
