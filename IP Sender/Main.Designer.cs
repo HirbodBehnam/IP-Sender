@@ -34,7 +34,6 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logLoginFailuresToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.logSentIPsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.useDirectIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.passwordHasherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +92,6 @@
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.logLoginFailuresToolStripMenuItem1,
             this.logSentIPsToolStripMenuItem,
-            this.useDirectIPToolStripMenuItem,
             this.toolStripSeparator1,
             this.passwordHasherToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
@@ -104,7 +102,7 @@
             // 
             this.logLoginFailuresToolStripMenuItem1.CheckOnClick = true;
             this.logLoginFailuresToolStripMenuItem1.Name = "logLoginFailuresToolStripMenuItem1";
-            this.logLoginFailuresToolStripMenuItem1.Size = new System.Drawing.Size(170, 22);
+            this.logLoginFailuresToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.logLoginFailuresToolStripMenuItem1.Text = "Log Login Failures";
             this.logLoginFailuresToolStripMenuItem1.Click += new System.EventHandler(this.logLoginFailuresToolStripMenuItem1_Click);
             // 
@@ -112,27 +110,19 @@
             // 
             this.logSentIPsToolStripMenuItem.CheckOnClick = true;
             this.logSentIPsToolStripMenuItem.Name = "logSentIPsToolStripMenuItem";
-            this.logSentIPsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.logSentIPsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logSentIPsToolStripMenuItem.Text = "Log Sent IPs";
             this.logSentIPsToolStripMenuItem.Click += new System.EventHandler(this.logSentIPsToolStripMenuItem_Click);
-            // 
-            // useDirectIPToolStripMenuItem
-            // 
-            this.useDirectIPToolStripMenuItem.CheckOnClick = true;
-            this.useDirectIPToolStripMenuItem.Name = "useDirectIPToolStripMenuItem";
-            this.useDirectIPToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.useDirectIPToolStripMenuItem.Text = "Use Direct IP";
-            this.useDirectIPToolStripMenuItem.Click += new System.EventHandler(this.useDirectIPToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // passwordHasherToolStripMenuItem
             // 
             this.passwordHasherToolStripMenuItem.Name = "passwordHasherToolStripMenuItem";
-            this.passwordHasherToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.passwordHasherToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.passwordHasherToolStripMenuItem.Text = "Password Hasher";
             this.passwordHasherToolStripMenuItem.Click += new System.EventHandler(this.passwordHasherToolStripMenuItem_Click);
             // 
@@ -480,7 +470,6 @@
         private System.Windows.Forms.ToolStripMenuItem howToUseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logLoginFailuresToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem useDirectIPToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem passwordHasherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuShow;

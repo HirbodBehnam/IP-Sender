@@ -12,7 +12,6 @@
         public string PCName { get; set; }
         public string Token { get; set; }
         public string Password { get; set; }
-        public bool DirectIP { get; set; }
         public Proxy proxy { get; set; }
         public bool LogFails { get; set; }
         public bool LogSends { get; set; }

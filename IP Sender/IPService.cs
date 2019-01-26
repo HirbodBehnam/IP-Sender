@@ -48,17 +48,15 @@ namespace IP_Sender
             LogFails = config.LogFails;
             LogSends = config.LogSends;
             //Now setup bot
-            if (config.DirectIP)
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             if(config.proxy.IP.Empty() || config.proxy.Port == 0)
-                Bot = new TelegramBotClient(Token, config.DirectIP);
+                Bot = new TelegramBotClient(Token);
             else if(config.proxy.Password.Empty() || config.proxy.User.Empty())
-                Bot = new TelegramBotClient(Token, config.DirectIP,new WebProxy(config.proxy.IP + ':' + config.proxy.Port));
+                Bot = new TelegramBotClient(Token,new WebProxy(config.proxy.IP + ':' + config.proxy.Port));
             else
             {
                 ICredentials credentials = new NetworkCredential(config.proxy.User, config.proxy.Password);
                 WebProxy proxy = new WebProxy(config.proxy.IP + ':' + config.proxy.Port, true, null, credentials);
-                Bot = new TelegramBotClient(Token, config.DirectIP, proxy);
+                Bot = new TelegramBotClient(Token, proxy);
             }
             var me = Bot.GetMeAsync().Result;
             Bot.OnMessage += BotOnMessageReceived;

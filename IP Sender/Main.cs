@@ -29,7 +29,6 @@ namespace IP_Sender
             TXTProxyPort.Text = settings.ProxyPort;
             TXTProxyUsername.Text = settings.ProxyUser;
             TXTProxyPassword.Text = settings.ProxyPass;
-            useDirectIPToolStripMenuItem.Checked = settings.DirectIP;
             logSentIPsToolStripMenuItem.Checked = settings.LogSends;
             logLoginFailuresToolStripMenuItem1.Checked = settings.LogLoginFailures;
         }
@@ -53,11 +52,6 @@ namespace IP_Sender
         {
             Show();
             TrayIcon.Visible = false;
-        }
-        private void useDirectIPToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.DirectIP = useDirectIPToolStripMenuItem.Checked;
-            Properties.Settings.Default.Save();
         }
         private void logLoginFailuresToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -98,19 +92,16 @@ namespace IP_Sender
                 }
             }
             SaveToJson();
-            //If we use direct IP, SSL handshake will fail and program will throw an exception. This line will bypass SSL check.           
-            if (useDirectIPToolStripMenuItem.Checked)
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             //Check proxy
             if (TXTProxyIP.Empty() && TXTProxyPort.Empty())
-                Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked);
+                Bot = new TelegramBotClient(TXTToken.Text);
             else if(TXTProxyUsername.Empty() && TXTProxyPassword.Empty())
-                    Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, new WebProxy(TXTProxyIP.Text, Convert.ToInt32(TXTProxyPort.Text)));
+                    Bot = new TelegramBotClient(TXTToken.Text, new WebProxy(TXTProxyIP.Text, Convert.ToInt32(TXTProxyPort.Text)));
             else
             {
                 ICredentials credentials = new NetworkCredential(TXTProxyUsername.Text, TXTProxyPassword.Text);
                 WebProxy proxy = new WebProxy(TXTProxyIP.Text + ":"+ TXTProxyPort.Text, true, null, credentials);
-                Bot = new TelegramBotClient(TXTToken.Text, useDirectIPToolStripMenuItem.Checked, proxy);
+                Bot = new TelegramBotClient(TXTToken.Text, proxy);
             }
             BTNStartBot.Enabled = false;
             BTNStopBot.Enabled = true;
@@ -224,7 +215,6 @@ namespace IP_Sender
             Properties.Settings.Default.Reload();
             Config config = new Config
             {
-                DirectIP = Properties.Settings.Default.DirectIP,
                 Token = Properties.Settings.Default.Token,
                 PCName = Properties.Settings.Default.PCName,
                 Password = Properties.Settings.Default.Password,
