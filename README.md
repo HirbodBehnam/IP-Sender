@@ -21,3 +21,6 @@ To create the service simply click on "Create Service" from service drop down me
 
 #### .Net Core
 [This](https://github.com/HirbodBehnam/IP-Sender-Net-Core) is same project written in .Net Core
+
+#### Golang
+[Same project on golang](https://github.com/HirbodBehnam/IP-Sender-Go)
